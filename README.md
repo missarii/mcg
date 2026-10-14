@@ -129,12 +129,17 @@ Open **`http://localhost:3000/admin`** (or the gear icon in the navbar).
 
 | Action | How | API |
 | --- | --- | --- |
-| Add product | Fill name/image/price/stock/desc -> **+ Add Product** | `POST /api/products` |
+| Add product | Fill name/price/stock/desc, **Upload image** from PC (preview shown), optionally **+ Add Variant** rows -> **+ Add Product** | `POST /api/products` (images via `POST /api/uploads/image`) |
+| Edit product | **Edit** on a row loads everything (incl. variants) into the form -> **Save changes** / Cancel | `PATCH /api/products/:id` |
+| Add variant | **+ Add Variant** -> per-variant name, unique SKU, price LKR, stock, description, image upload + preview | embedded in product |
+| Edit/remove variant | Edit any variant field inline; **Remove** drops that variant card only | embedded in product |
 | Update stock | -/+ stepper or type number | `PATCH /api/products/:id { stock }` |
 | Toggle sold-out | Flip green switch | `PATCH /api/products/:id { soldOut }` |
-| Delete product | **Delete** button | `DELETE /api/products/:id` |
+| Delete product | **Delete** button (confirms first) | `DELETE /api/products/:id` |
 | View orders* | `GET /api/orders` with token (Postman) | admin only |
 | View messages* | `GET /api/messages` with token | admin only |
+
+Image rules: JPG/JPEG/PNG/WebP only, max 5MB, stored under `dist/uploads` and served by the same server (`/uploads/...`). Variant SKUs must be unique per product.
 
 *Orders/messages have API endpoints but no on-screen table yet - use Postman/curl with the admin token, or ask to add an Orders tab.*
 
