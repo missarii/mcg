@@ -92,6 +92,47 @@ npm run dev                  # frontend :5173, proxies /api -> :3000
 npm run dev --prefix backend # backend :3000
 ```
 
+## Quick Local Development Guide
+
+**Single Server Mode** (recommended for development):
+
+1. **Setup Phase** (run once):
+   ```bash
+   # 1. Set up your MongoDB Atlas credentials
+   # Edit backend/.env with your actual Atlas password
+
+   # 2. Install all dependencies
+   npm install
+   npm install --prefix backend
+
+   # 3. (Optional) Seed initial products
+   npm run seed --prefix backend
+   ```
+
+2. **Run the App** (in one terminal for single server, two for dev mode):
+   - **Single Server** (what you asked for):
+     ```bash
+     npm run build                    # Build frontend
+     npm run build --prefix backend   # Build backend
+     npm start                        # Run single server on localhost:3000
+     ```
+     - **Development Mode** (hot reload):
+     ```bash
+     npm run dev                       # Frontend dev server on :5173
+     npm run dev --prefix backend       # Backend dev server on :3000
+     ```
+
+**URLs after starting**:
+- `http://localhost:3000/` - Full storefront (React app)
+- `http://localhost:3000/api/...` - All API endpoints
+- `http://localhost:3000/admin` - Admin panel (use `orange`/`123`)
+
+**Troubleshooting**:
+- **Missing products?** Run `npm run seed --prefix backend`
+- **Admin login issues?** Check `backend/.env` for `ADMIN_USER`/`ADMIN_PASS`
+- **Database connection errors?** Verify your MongoDB Atlas password and IP whitelist settings
+- **API issues?** Ensure the backend runs from project root to serve `dist/` correctly
+
 ## API Reference (same origin)
 
 | Method | Endpoint | Auth | Description |
