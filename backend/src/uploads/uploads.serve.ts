@@ -5,6 +5,12 @@ import { existsSync, mkdirSync } from 'fs';
 import { AdminGuard } from '../auth/admin.guard';
 
 function uploadsDir(): string {
+  // Allow override via UPLOADS_DIR env var for persistent storage (e.g. /data/uploads on Fly.io)
+  const envDir = process.env.UPLOADS_DIR;
+  if (envDir) {
+    mkdirSync(envDir, { recursive: true });
+    return envDir;
+  }
   const candidates = [
     join(__dirname, '..', '..', '..', 'dist', 'uploads'),
     join(__dirname, '..', '..', 'dist', 'uploads'),

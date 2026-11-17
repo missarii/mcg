@@ -9,6 +9,12 @@ export const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5MB
 const ALLOWED_MIME = new Set(['image/jpeg', 'image/png', 'image/webp']);
 
 function uploadsDir(): string {
+  // Allow override via UPLOADS_DIR env var for persistent storage (e.g. /data/uploads on Fly.io)
+  const envDir = process.env.UPLOADS_DIR;
+  if (envDir) {
+    mkdirSync(envDir, { recursive: true });
+    return envDir;
+  }
   // backend/dist -> /mcg/dist/uploads ; backend/src (ts-node) -> /mcg/dist/uploads
   const candidates = [
     join(__dirname, '..', '..', '..', 'dist', 'uploads'),

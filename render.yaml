@@ -1,0 +1,27 @@
+# Render Blueprint for MCG Gallery
+# Defines the static site (React frontend) and web service (NestJS backend)
+services:
+  # Static site for React frontend (dist/)
+  - type: static site
+    name: mcg-frontend
+    env: node
+    buildCommand: npm run build
+    staticPublishPath: dist
+    region: oregon
+    plan: free
+
+  # Web service for NestJS backend (Dockerized)
+  - type: web
+    name: mcg-backend
+    env: docker
+    # Docker image built from Dockerfile at project root
+    # The Dockerfile uses multi-stage build to compile NestJS
+    plan: free
+    region: oregon
+    # Environment variables are set via Render dashboard or CLI
+    # Common secrets for backend:
+    # - MONGODB_URI
+    # - CLOUDINARY_URL
+    # - ADMIN_USER, ADMIN_PASS
+    # - JWT_SECRET, JWT_EXPIRES_IN
+    # - PORT

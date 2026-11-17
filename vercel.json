@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "name": "mcg",
+  "builds": [
+    {
+      "src": "backend/dist/main.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "dist/**/*",
+          "backend/dist/**/*",
+          "backend/node_modules/**"
+        ],
+        "installCommand": "npm install && npm install --prefix backend",
+        "buildCommand": "npm run vercel-build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "backend/dist/main.js"
+    }
+  ]
+}

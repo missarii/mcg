@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  mcg-backend:
+    build: .
+    container_name: mcg-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - backend/.env
+    volumes:
+      - ./dist:/app/dist
+    environment:
+      - PORT=3000
+    restart: unless-stopped
